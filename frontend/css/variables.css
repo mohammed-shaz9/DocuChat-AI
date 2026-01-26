@@ -1,0 +1,8 @@
+:root {
+  --bg: #0f172a; /* slate-900 */
+  --panel: #111827; /* gray-900 */
+  --text: #f8fafc; /* slate-50 */
+  --muted: #94a3b8; /* slate-400 */
+  --primary: #22d3ee; /* cyan-400 */
+  --accent: #a78bfa; /* violet-400 */
+}
