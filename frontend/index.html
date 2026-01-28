@@ -1,25 +1,182 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>RAG Chatbot</title>
-    <link rel="stylesheet" href="css/main.css" />
-  </head>
-  <body>
-    <div class="container">
-      <header>
-        <h1>RAG Chatbot</h1>
-        <p class="subtitle">Phase 1 — Project Skeleton</p>
-      </header>
-      <main>
-        <div id="messages" class="messages" aria-live="polite"></div>
-        <form id="chat-form" class="chat-form">
-          <input id="user-input" type="text" placeholder="Type your question..." autocomplete="off" />
-          <button type="submit">Send</button>
-        </form>
-      </main>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="RAG Chatbot - Ask questions about your Google Docs">
+    <title>RAG Chatbot - Document Q&amp;A</title>
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/variables.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+    <!-- Main Container -->
+    <div class="app-container">
+        
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <div class="header-brand">
+                    <span class="icon">📄</span>
+                    <span class="brand-text">DocuChat AI</span>
+                </div>
+                <div class="header-status" id="status-indicator">
+                    <span class="status-dot" id="status-dot"></span>
+                    <span class="status-text" id="status-text">Not Connected</span>
+                    <button id="theme-toggle" class="btn btn-secondary btn-small" aria-label="Toggle theme">Theme</button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Hero Section -->
+        <section class="hero-section">
+            <div class="hero-content">
+                <h1 class="hero-title">Your documents, now conversational</h1>
+                <p class="hero-subtitle">Ask questions, get instant answers with sources. No reading required.</p>
+                <div class="trust-indicators">
+                    <span class="trust-badge">✨ Powered by GPT-4</span>
+                    <span class="trust-badge">🔒 Enterprise Security</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            
+            <!-- Document Ingestion Section -->
+            <section class="section" id="ingest-section">
+                <!-- Feature Highlights -->
+                <div class="feature-grid">
+                    <div class="feature-item">
+                        <span class="feature-icon">⚡</span>
+                        <span class="feature-text">Instant Answers</span>
+                    </div>
+                    <div class="feature-item">
+                        <span class="feature-icon">📚</span>
+                        <span class="feature-text">Source Citations</span>
+                    </div>
+                    <div class="feature-item">
+                        <span class="feature-icon">📄</span>
+                        <span class="feature-text">Any Document</span>
+                    </div>
+                </div>
+
+                <div class="card ingest-card">
+                    <h2 class="section-title">Start Chatting</h2>
+                    <p class="section-description">
+                        Drop your Google Doc link here and watch the magic ✨
+                    </p>
+                    
+                    <!-- Value Prop Card Placeholder -->
+                    <div class="value-prop-card">
+                        <h3>💡 How it works</h3>
+                        <ol>
+                            <li>Upload any Google Doc (public link)</li>
+                            <li>Ask questions in plain English</li>
+                            <li>Get accurate answers with citations</li>
+                        </ol>
+                    </div>
+
+                    <div class="input-group">
+                        <input 
+                            type="url" 
+                            id="doc-url-input" 
+                            class="url-input"
+                            placeholder="Paste your Google Doc link here..."
+                            aria-label="Google Doc URL"
+                        />
+                        <button 
+                            id="load-doc-btn" 
+                            class="btn btn-primary"
+                            aria-label="Load document"
+                        >
+                            <span class="btn-text">Start Chatting →</span>
+                            <span class="btn-loader" style="display: none;">
+                                <span class="spinner"></span>
+                            </span>
+                        </button>
+                    </div>
+                    
+                    <div id="ingest-feedback" class="feedback" role="alert" aria-live="polite"></div>
+                </div>
+            </section>
+
+            <!-- Chat Section -->
+            <section class="section" id="chat-section" style="display: none;">
+                <div class="card chat-card">
+                    
+                    <!-- Chat Header -->
+                    <div class="chat-header">
+                        <h2 class="section-title">DocuChat Expert</h2>
+                        <div class="chat-actions">
+                            <button id="clear-chat-btn" class="btn btn-secondary btn-small">
+                                Start Fresh
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Messages Container -->
+                    <div id="chat-messages" class="chat-messages" role="log" aria-live="polite">
+                        <!-- Messages will be inserted here -->
+                    </div>
+                    
+                    <!-- Typing Indicator -->
+                    <div id="typing-indicator" class="typing-indicator" style="display: none;">
+                        <span class="typing-dot"></span>
+                        <span class="typing-dot"></span>
+                        <span class="typing-dot"></span>
+                    </div>
+                    
+                    <!-- Input Area -->
+                    <div class="chat-input-area">
+                        <textarea 
+                            id="user-input" 
+                            class="chat-input"
+                            placeholder="What would you like to know?"
+                            rows="2"
+                            aria-label="Your message"
+                        ></textarea>
+                        <button 
+                            id="send-btn" 
+                            class="btn btn-primary btn-send"
+                            aria-label="Send message"
+                        >
+                            <span class="btn-icon">➤</span>
+                        </button>
+                    </div>
+                    
+                    <div class="input-hint">
+                        Press <kbd>Enter</kbd> to send, <kbd>Shift+Enter</kbd> for new line, <kbd>Ctrl+Enter</kbd> to send quickly
+                    </div>
+                </div>
+            </section>
+
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p class="footer-text">
+                Free to use • Instant answers • Source citations • Privacy-first
+            </p>
+        </footer>
+
     </div>
+
+    <!-- Loading Overlay -->
+    <div id="loading-overlay" class="loading-overlay" style="display: none;">
+        <div class="loading-content">
+            <div class="loading-spinner"></div>
+            <p class="loading-text">Processing...</p>
+        </div>
+    </div>
+
+    <!-- Toast Container -->
+    <div id="toast-container" class="toast-container" aria-live="polite" aria-atomic="true"></div>
+
+    <!-- JavaScript -->
     <script type="module" src="js/main.js"></script>
-  </body>
-</html>
+    <script type="module" src="js/theme.js"></script>
+ </body>
+ </html>

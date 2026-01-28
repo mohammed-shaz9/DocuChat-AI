@@ -1,8 +1,146 @@
+/* Default (Psychology/Education/Sales - Premium Dark) */
 :root {
-  --bg: #0f172a; /* slate-900 */
-  --panel: #111827; /* gray-900 */
-  --text: #f8fafc; /* slate-50 */
-  --muted: #94a3b8; /* slate-400 */
-  --primary: #22d3ee; /* cyan-400 */
-  --accent: #a78bfa; /* violet-400 */
+  /* Deep Royal Blue Backgrounds: Trust, Authority, Calm */
+  --color-bg-primary: #0a192f;
+  /* Deep Navy - Intelligence & Focus */
+  --color-bg-secondary: #112240;
+  /* Richer Blue - Stability */
+  --color-bg-tertiary: #233554;
+  /* Lighter Navy - Inputs */
+  --color-bg-card: #112240;
+
+  /* Typography: High Clarity Cream/White */
+  --color-text-primary: #e6f1ff;
+  /* Readability without harshness */
+  --color-text-secondary: #8892b0;
+  /* Soft contrast */
+  --color-text-tertiary: #a8b2d1;
+
+  /* Accents: Sales & Action Psychology */
+  --color-accent-primary: #ff9f1c;
+  /* Energetic Amber/Orange - Action/Sales */
+  --color-accent-primary-hover: #fa8c05;
+  --color-accent-secondary: #4cc9f0;
+  /* Clear Cyan - Clarity/Tech */
+
+  --color-success: #64ffda;
+  /* Growth Green - Education/Success */
+  --color-success-bg: rgba(100, 255, 218, 0.1);
+  --color-error: #ef4444;
+  --color-error-bg: rgba(239, 68, 68, 0.15);
+  --color-warning: #ffbe0b;
+  --color-warning-bg: rgba(255, 190, 11, 0.15);
+
+  --color-citation: #4cc9f0;
+  --color-citation-bg: rgba(76, 201, 240, 0.1);
+
+  --color-border: #1e3a8a;
+  /* Subtle blue border */
+  --color-border-light: #233554;
+
+  /* Theme Specific Gradients (Dark Default) */
+  --gradient-hero-text: linear-gradient(135deg, #e6f1ff 0%, #4cc9f0 100%);
+  --gradient-hero-bg: radial-gradient(circle at 50% 0%, rgba(76, 201, 240, 0.15) 0%, transparent 70%);
+
+  /* SHARED VARIABLES (Typography, Spacing, etc.) */
+  --font-family-primary: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --font-family-mono: 'SF Mono', Monaco, 'Cascadia Code', 'Courier New', monospace;
+
+  --font-size-xs: 0.75rem;
+  --font-size-sm: 0.875rem;
+  --font-size-base: 1rem;
+  --font-size-lg: 1.125rem;
+  --font-size-xl: 1.25rem;
+  --font-size-2xl: 1.5rem;
+  --font-size-3xl: 2rem;
+
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+
+  --line-height-tight: 1.25;
+  --line-height-normal: 1.5;
+  --line-height-relaxed: 1.75;
+
+  --spacing-xs: 0.25rem;
+  --spacing-sm: 0.5rem;
+  --spacing-md: 1rem;
+  --spacing-lg: 1.5rem;
+  --spacing-xl: 2rem;
+  --spacing-2xl: 3rem;
+
+  --radius-sm: 0.375rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-xl: 1rem;
+  --radius-full: 9999px;
+
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.5);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.55);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.6);
+
+  --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-base: 200ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow: 300ms cubic-bezier(0.4, 0, 0.2, 1);
+
+  --z-base: 1;
+  --z-dropdown: 100;
+  --z-sticky: 200;
+  --z-overlay: 500;
+  --z-modal: 1000;
+  --z-tooltip: 1500;
+
+  --max-width-sm: 640px;
+  --max-width-md: 768px;
+  --max-width-lg: 1024px;
+  --max-width-xl: 1280px;
+
+  --header-height: 80px;
+  --footer-height: 60px;
+}
+
+/* Light Mode Overrides (Premium Academic Light) */
+:root[data-theme="light"] {
+  /* Colors */
+  --color-bg-primary: #f0f4f8;
+  /* Alice Blue - Calming */
+  --color-bg-secondary: #ffffff;
+  --color-bg-tertiary: #e2e8f0;
+  --color-bg-card: #ffffff;
+
+  --color-text-primary: #0f172a;
+  /* Deep Slate - Authority */
+  --color-text-secondary: #475569;
+  --color-text-tertiary: #64748b;
+
+  /* Accents */
+  --color-accent-primary: #f59e0b;
+  /* Amber */
+  --color-accent-primary-hover: #d97706;
+  --color-accent-secondary: #0ea5e9;
+  /* Sky Blue */
+
+  --color-success: #059669;
+  --color-success-bg: #d1fae5;
+  --color-error: #dc2626;
+  --color-error-bg: #fee2e2;
+  --color-warning: #d97706;
+  --color-warning-bg: #fef3c7;
+
+  --color-citation: #0ea5e9;
+  --color-citation-bg: rgba(14, 165, 233, 0.1);
+
+  --color-border: #cbd5e1;
+  --color-border-light: #e2e8f0;
+
+  /* Shadows (Softer for light mode) */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+
+  /* Gradients (Light Mode) */
+  --gradient-hero-text: linear-gradient(135deg, #0f172a 0%, #2563eb 100%);
+  --gradient-hero-bg: radial-gradient(circle at 50% 0%, rgba(37, 99, 235, 0.08) 0%, transparent 70%);
 }
