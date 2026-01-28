@@ -404,37 +404,40 @@ class _MemoryCollection:
                 self.embs.append(embeddings[i])
 
     def query(self, query_text: str, n_results: int = 3) -> Dict[str, Any]:
-        """Simple keyword-based scoring for memory fallback retrieval."""
-        if not self.docs:
+        """Perform semantic search using Cosine Similarity on embeddings."""
+        if not self.docs or not self.embs:
             return {"documents": [[]], "metadatas": [[]], "distances": [[]]}
 
-        # Preprocess query
-        q_words = set(re.sub(r"[^a-z0-9]", " ", query_text.lower()).split())
-        
-        scored_docs = []
-        for i in range(len(self.docs)):
-            doc_text = self.docs[i].lower()
-            # Score based on keyword overlap
-            score = 0
-            for word in q_words:
-                if len(word) > 2: # Ignore small words
-                    if word in doc_text:
-                        score += 1
+        try:
+            # 1. Generate embedding for query
+            from backend.modules.vector_store import VectorStore
+            vs = VectorStore()
+            query_emb = vs.generate_embeddings([query_text])[0]
             
-            # Penalize long documents slightly to favor specific matches
-            normalized_score = score / (1 + 0.01 * len(doc_text.split()))
-            scored_docs.append((normalized_score, i))
-
-        # Sort by score descending
-        scored_docs.sort(key=lambda x: x[0], reverse=True)
-        top_indices = [idx for score, idx in scored_docs[:n_results]]
-
-        docs = [self.docs[i] for i in top_indices]
-        metas = [self.metas[i] for i in top_indices]
-        # Invert score to 'distance' for consistency with Chroma (higher score = lower distance)
-        dists = [1.0 / (1.0 + score) for score, idx in scored_docs[:n_results]]
-        
-        return {"documents": [docs], "metadatas": [metas], "distances": [dists]}
+            # 2. Convert to numpy for math
+            import numpy as np
+            q = np.asarray(query_emb, dtype=np.float32)
+            E = np.asarray(self.embs, dtype=np.float32)
+            
+            # 3. Calculate Cosine Similarity: (A . B) / (||A|| * ||B||)
+            q_norm = np.linalg.norm(q) or 1.0
+            E_norms = np.linalg.norm(E, axis=1)
+            E_norms[E_norms == 0] = 1.0
+            
+            sims = (E @ q) / (E_norms * q_norm)
+            
+            # 4. Sort and return
+            order = np.argsort(sims)[::-1][:n_results] # Highest similarity first
+            
+            docs = [self.docs[int(i)] for i in order]
+            metas = [self.metas[int(i)] for i in order]
+            # Convert similarity to distance (higher sim = lower distance)
+            dists = [float(1.0 - sims[int(i)]) for i in order]
+            
+            return {"documents": [docs], "metadatas": [metas], "distances": [dists]}
+        except Exception as e:
+            print(f"Fallback search error: {e}")
+            return {"documents": [[]], "metadatas": [[]], "distances": [[]]}
 
     def delete(self, ids: IDs) -> None:
         to_delete = set(ids)
